@@ -2,17 +2,12 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "commonjs",
-    "lib": [
-      "dom",
-      "es6",
-      "es2017",
-      "esnext"
-    ],
+    "lib": ["dom", "es6", "es2017", "esnext"],
     "skipLibCheck": true,
     "sourceMap": true,
     "outDir": "./dist",
     "moduleResolution": "node",
-    "removeComments": true,
+    "removeComments": false,
     "noImplicitAny": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
@@ -28,10 +23,6 @@
     "resolveJsonModule": true,
     "baseUrl": "."
   },
-  "exclude": [
-    "node_modules"
-  ],
-  "include": [
-    "./src/**/*.ts"
-  ]
+  "exclude": ["node_modules"],
+  "include": ["./src/**/*.ts"]
 }

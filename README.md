@@ -1,6 +1,16 @@
 # `p-flat`
 
-No more callback and try-catch hell.
+Go inspired error handling for asynchronous functions.
+
+## Installation
+
+```sh
+npm install p-flat
+
+yarn add p-flat
+
+pnpm add p-flat
+```
 
 ## Example Usage
 
@@ -9,25 +19,22 @@ import p from "p-flat";
 
 const [res, err] = await p(someAsyncWork(...args));
 
-if (err) {
-  // If `err` is truthy, some error has been thrown
-  // `res` will be `null` and should not be accessed/used
+if (err !== null) {
+  // If `err` is not `null`, some error or value has been thrown
+  // `res` will be `null` and cannot be used safely here
   // Error handling for `someAsyncWork` should be done here
   console.error(err);
   return;
 }
 
-// Else, `res` will be the correct return value of `someAsyncWork`
+// Else, `res` will be the correct return type and value of `someAsyncWork`
 console.log(res);
 ```
 
-**Note:**
+- If `err` is not `null` (ie. the asynchronous function threw an error), then `res` will be `null`
+- If `err` is `null` (ie. the asynchronous function did not throw any errors), then `res` is guaranteed to have the return type and value of the resolved function
 
-- If `err` is truthy (ie. the asynchronous function threw an error), then `res` will be `null`
-- If `err` if falsy (ie. the asynchronous function did not throw any errors), then `res` is guaranteed to have the return value of the resolved function
-- Due to limitations in TypeScript, `res` will always have the return type of the resolved function, even when `err` is truthy (and thus `res` is `null`)
-
-## Motivation
+## Rationale
 
 Inspired from the [error handling in Go](https://blog.golang.org/error-handling-and-go), this construct greatly increases code readability.
 
@@ -92,14 +99,14 @@ With `p-flat`:
 
 ```ts
 const [randomNumber, randomNumberErr] = await p(getRandomNumber());
-if (randomNumberErr) {
+if (randomNumberErr !== null) {
   console.error(randomNumberErr);
   // Uncomment the next line to stop execution
   // return;
 }
 
 const [squareNumber, squareNumberErr] = await p(getSquareNumber(randomNumber));
-if (squareNumberErr) {
+if (squareNumberErr !== null) {
   console.error(squareNumberErr);
   // Uncomment the next line to stop execution
   // return;
