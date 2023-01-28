@@ -1,10 +1,10 @@
-async function p<T>(
-  asyncFunction: Promise<T>
-): Promise<[T, null] | [T, unknown]> {
+async function p<T, U extends NonNullable<unknown>>(
+  fn: Promise<T>
+): Promise<[T, null] | [null, U]> {
   try {
-    return [await asyncFunction, null];
-  } catch (error: unknown) {
-    return [null as unknown as T, error];
+    return [await fn, null];
+  } catch (error) {
+    return [null, error ?? new Error("[p-flat] unknown nullish error")];
   }
 }
 
